@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ doc.title }} - Document Details</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
+        .container { max-width: 900px; margin: auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #0056b3; }
+        pre { background-color: #eee; padding: 15px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; max-height: 500px; overflow-y: auto; border: 1px solid #ccc; }
+        .details p { margin: 5px 0; }
+        .back-button { display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px; }
+        .back-button:hover { background-color: #5a6268; }
+        .download-link { display: inline-block; margin-left: 10px; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; }
+        .download-link:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ doc.title }}</h1>
+        <div class="details">
+            <p><strong>ID:</strong> {{ doc.id }}</p>
+            <p><strong>Category:</strong> {{ doc.category if doc.get('category') else 'N/A' }}</p>
+            <p><strong>Original File:</strong> <a href="{{ url_for('download_file', filename=doc.filename) }}">{{ doc.filename }}</a></p>
+        </div>
+        <h2>Extracted Text:</h2>
+        <pre>{{ doc.text }}</pre>
+        <a href="{{ url_for('index') }}" class="back-button">Back to Home</a>
+        <a href="{{ url_for('download_file', filename=doc.filename) }}" class="download-link">Download Original File</a>
+    </div>
+</body>
+</html>
