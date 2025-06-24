@@ -1,0 +1,6 @@
+run = "python3 app.py"
+entrypoint = "app.py"
+modules = ["python3"]
+
+[nix]
+channel = "stable-23_05" 

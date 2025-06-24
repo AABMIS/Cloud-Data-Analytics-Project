@@ -1,47 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document Analysis App</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
-        .container { max-width: 900px; margin: auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1 { text-align: center; color: #0056b3; }
-        .upload-section { margin-bottom: 30px; padding: 20px; border: 1px dashed #ccc; border-radius: 5px; text-align: center; }
-        .upload-section input[type="file"] { margin-bottom: 15px; }
-        .upload-section button { background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; }
-        .upload-section button:hover { background-color: #0056b3; }
-        .search-section { margin-bottom: 30px; display: flex; justify-content: center; align-items: center; }
-        .search-section input[type="text"] { flex-grow: 1; padding: 10px; border: 1px solid #ccc; border-radius: 5px 0 0 5px; max-width: 400px; }
-        .search-section button { padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 0 5px 5px 0; cursor: pointer; }
-        .search-section button:hover { background-color: #218838; }
-        .documents-list { margin-top: 20px; }
-        .document-item { background-color: #e9e9e9; padding: 15px; border-radius: 5px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .document-item h3 { margin: 0; color: #333; }
-        .document-item a { text-decoration: none; color: #007bff; font-weight: bold; }
-        .document-item a:hover { text-decoration: underline; }
-        .category-filter { text-align: center; margin-bottom: 20px; }
-        .category-filter a { display: inline-block; padding: 8px 15px; margin: 5px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px; }
-        .category-filter a.active, .category-filter a:hover { background-color: #5a6268; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        .upload-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px dashed #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .upload-section input[type="file"],
+        .upload-section input[type="url"] { /* Added input[type="url"] */
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .upload-section button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .upload-section button:hover {
+            background-color: #0056b3;
+        }
+
+        .search-section {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .search-section input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+            max-width: 400px;
+        }
+
+        .search-section button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        .search-section button:hover {
+            background-color: #218838;
+        }
+
+        .documents-list {
+            margin-top: 20px;
+        }
+
+        .document-item {
+            background-color: #e9e9e9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .document-item h3 {
+            margin: 0;
+            color: #333;
+        }
+
+        .document-item a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .document-item a:hover {
+            text-decoration: underline;
+        }
+
+        .category-filter {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .category-filter a {
+            display: inline-block;
+            padding: 8px 15px;
+            margin: 5px;
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .category-filter a.active,
+        .category-filter a:hover {
+            background-color: #5a6268;
+        }
+        /* Styles for flash messages */
+        .flash-message {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .flash-message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .flash-message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .flash-message.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Document Analysis and Search</h1>
 
+        <!-- Flash Messages Section -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages-container">
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
         <div class="upload-section">
             <h2>Upload New Document</h2>
-            <form action="/upload" method="post" enctype="multipart/form-data">
-                <input type="file" name="file" required>
-                <br>
-                <button type="submit">Upload</button>
+            <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+                <p><strong>Option 1: Upload File</strong></p>
+                <input type="file" name="file">
+                <br><br>
+                <p><strong>Option 2: Provide Google Drive Link</strong></p>
+                <input type="url" name="drive_link" placeholder="https://drive.google.com/d/..." style="width: 80%;">
+                <br><br>
+                <button type="submit">Submit</button>
             </form>
         </div>
 
         <div class="search-section">
-            <form action="/search" method="get">
-                <input type="text" name="q" placeholder="Search documents..." value="{{ search_query if search_query else '' }}">
+            <form action="{{ url_for('search_documents') }}" method="get">
+                <input type="text" name="q" placeholder="Search documents..."
+                    value="{{ search_query if search_query else '' }}">
                 <button type="submit">Search</button>
             </form>
         </div>
@@ -50,26 +201,30 @@
             <h2>Filter by Category</h2>
             <a href="{{ url_for('index') }}" class="{{ 'active' if not selected_category else '' }}">All</a>
             {% for category in categories %}
-                <a href="{{ url_for('filter_by_category', category_name=category) }}" class="{% if selected_category == category %}active{% endif %}">{{ category }}</a>
+            <a href="{{ url_for('filter_by_category', category_name=category) }}"
+                class="{% if selected_category == category %}active{% endif %}">{{ category }}</a>
             {% endfor %}
         </div>
 
 
         <div class="documents-list">
-            <h2>{% if search_query %}Search Results for "{{ search_query }}"{% elif selected_category %}Documents in "{{ selected_category }}"{% else %}All Documents{% endif %}</h2>
+            <h2>{% if search_query %}Search Results for "{{ search_query }}"{% elif selected_category %}Documents in "{{
+                selected_category }}"{% else %}All Documents{% endif %}</h2>
             {% if documents %}
-                {% for doc in documents %}
-                    <div class="document-item">
-                        <h3><a href="{{ url_for('view_document', doc_id=doc.id) }}">{{ doc.title }}</a></h3>
-                        {% if doc.get('category') %}
-                            <span style="background-color: #f0f0f0; padding: 5px 10px; border-radius: 3px; font-size: 0.9em;">Category: {{ doc.category }}</span>
-                        {% endif %}
-                    </div>
-                {% endfor %}
+            {% for doc in documents %}
+            <div class="document-item">
+                <h3><a href="{{ url_for('view_document', doc_id=doc.id, highlight_q=search_query if search_query else '') }}">{{ doc.title }}</a></h3>
+                {% if doc.get('category') %}
+                <span style="background-color: #f0f0f0; padding: 5px 10px; border-radius: 3px; font-size: 0.9em;">Category:
+                    {{ doc.category }}</span>
+                {% endif %}
+            </div>
+            {% endfor %}
             {% else %}
-                <p>No documents found.</p>
+            <p>No documents found.</p>
             {% endif %}
         </div>
     </div>
 </body>
+
 </html>

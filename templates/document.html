@@ -3,26 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ doc.title }} - Document Details</title>
+    <title>{{ doc.title }}</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
         .container { max-width: 900px; margin: auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1 { color: #0056b3; }
-        pre { background-color: #eee; padding: 15px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; max-height: 500px; overflow-y: auto; border: 1px solid #ccc; }
-        .details p { margin: 5px 0; }
-        .back-button { display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px; }
-        .back-button:hover { background-color: #5a6268; }
-        .download-link { display: inline-block; margin-left: 10px; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; }
-        .download-link:hover { background-color: #0056b3; }
+        h1 { text-align: center; color: #0056b3; }
+        h2 { color: #0056b3; }
+        pre {
+            background-color: #eee;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap; /* Allows text to wrap */
+            word-wrap: break-word; /* Breaks long words */
+            max-height: 600px; /* Limit height */
+            overflow-y: auto; /* Add scroll if content exceeds max-height */
+            line-height: 1.6;
+        }
+        mark { background-color: yellow; color: black; padding: 0 2px; } /* Style for highlighted text */
+        .back-link { display: block; margin-top: 20px; text-align: center; }
+        .back-link a { text-decoration: none; color: #007bff; font-weight: bold; }
+        .back-link a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>{{ doc.title }}</h1>
-        <div class="details">
-            <p><strong>ID:</strong> {{ doc.id }}</p>
-            <p><strong>Category:</strong> {{ doc.category if doc.get('category') else 'N/A' }}</p>
-            <p><strong>Original File:</strong> <a href="{{ url_for('download_file', filename=doc.filename) }}">{{ doc.filename }}</a></p>
+        <p><strong>Category:</strong> {{ doc.category }}</p>
+        <p><strong>Original Filename:</strong> {{ doc.filename }}</p>
+
+        <h2>Document Content:</h2>
+        <!-- Use display_text which contains highlighted text if a search query was present -->
+        <pre>{{ display_text | safe }}</pre> 
+
+        <div class="back-link">
+            <a href="{{ url_for('index') }}">Back to Documents</a>
         </div>
         <h2>Extracted Text:</h2>
         <pre>{{ doc.text }}</pre>
