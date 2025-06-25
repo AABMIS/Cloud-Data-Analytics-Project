@@ -13,13 +13,13 @@
             background-color: #eee;
             padding: 15px;
             border-radius: 5px;
-            white-space: pre-wrap; /* Allows text to wrap */
-            word-wrap: break-word; /* Breaks long words */
-            max-height: 600px; /* Limit height */
-            overflow-y: auto; /* Add scroll if content exceeds max-height */
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 600px;
+            overflow-y: auto;
             line-height: 1.6;
         }
-        mark { background-color: yellow; color: black; padding: 0 2px; } /* Style for highlighted text */
+        mark { background-color: yellow; color: black; padding: 0 2px; }
         .back-link { display: block; margin-top: 20px; text-align: center; }
         .back-link a { text-decoration: none; color: #007bff; font-weight: bold; }
         .back-link a:hover { text-decoration: underline; }
@@ -32,8 +32,7 @@
         <p><strong>Original Filename:</strong> {{ doc.filename }}</p>
 
         <h2>Document Content:</h2>
-        <!-- Use display_text which contains highlighted text if a search query was present -->
-        <pre>{{ display_text | safe }}</pre> 
+        <pre>{{ display_text | safe }}</pre>
 
         <div class="back-link">
             <a href="{{ url_for('index') }}">Back to Documents</a>

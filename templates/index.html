@@ -36,7 +36,7 @@
         }
 
         .upload-section input[type="file"],
-        .upload-section input[type="url"] { /* Added input[type="url"] */
+        .upload-section input[type="url"] {
             width: calc(100% - 22px);
             padding: 10px;
             margin-bottom: 15px;
@@ -135,7 +135,7 @@
         .category-filter a:hover {
             background-color: #5a6268;
         }
-        /* Styles for flash messages */
+
         .flash-message {
             padding: 10px;
             margin-bottom: 20px;
@@ -143,16 +143,19 @@
             text-align: center;
             font-weight: bold;
         }
+
         .flash-message.success {
             background-color: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
         }
+
         .flash-message.error {
             background-color: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
+
         .flash-message.info {
             background-color: #d1ecf1;
             color: #0c5460;
@@ -165,7 +168,6 @@
     <div class="container">
         <h1>Document Analysis and Search</h1>
 
-        <!-- Flash Messages Section -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 <div class="flash-messages-container">
@@ -191,8 +193,7 @@
 
         <div class="search-section">
             <form action="{{ url_for('search_documents') }}" method="get">
-                <input type="text" name="q" placeholder="Search documents..."
-                    value="{{ search_query if search_query else '' }}">
+                <input type="text" name="q" placeholder="Search documents..." value="{{ search_query if search_query else '' }}">
                 <button type="submit">Search</button>
             </form>
         </div>
@@ -201,22 +202,18 @@
             <h2>Filter by Category</h2>
             <a href="{{ url_for('index') }}" class="{{ 'active' if not selected_category else '' }}">All</a>
             {% for category in categories %}
-            <a href="{{ url_for('filter_by_category', category_name=category) }}"
-                class="{% if selected_category == category %}active{% endif %}">{{ category }}</a>
+            <a href="{{ url_for('filter_by_category', category_name=category) }}" class="{% if selected_category == category %}active{% endif %}">{{ category }}</a>
             {% endfor %}
         </div>
 
-
         <div class="documents-list">
-            <h2>{% if search_query %}Search Results for "{{ search_query }}"{% elif selected_category %}Documents in "{{
-                selected_category }}"{% else %}All Documents{% endif %}</h2>
+            <h2>{% if search_query %}Search Results for "{{ search_query }}"{% elif selected_category %}Documents in "{{ selected_category }}"{% else %}All Documents{% endif %}</h2>
             {% if documents %}
             {% for doc in documents %}
             <div class="document-item">
                 <h3><a href="{{ url_for('view_document', doc_id=doc.id, highlight_q=search_query if search_query else '') }}">{{ doc.title }}</a></h3>
                 {% if doc.get('category') %}
-                <span style="background-color: #f0f0f0; padding: 5px 10px; border-radius: 3px; font-size: 0.9em;">Category:
-                    {{ doc.category }}</span>
+                <span style="background-color: #f0f0f0; padding: 5px 10px; border-radius: 3px; font-size: 0.9em;">Category: {{ doc.category }}</span>
                 {% endif %}
             </div>
             {% endfor %}
