@@ -269,4 +269,4 @@ def filter_by_category(category_name):
     return render_template('index.html', documents=filtered_docs, selected_category=category_name, categories=categories)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)
