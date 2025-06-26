@@ -1,6 +1,13 @@
 run = "python3 app.py"
-entrypoint = "app.py"
-modules = ["python3"]
+modules = ["python-3.12", "web"]
 
 [nix]
-channel = "stable-23_05" 
+channel = "stable-24_05"
+packages = ["glibcLocales", "libxcrypt", "pkg-config", "xsimd"]
+
+[deployment]
+run = ["sh", "-c", "python3 app.py"]
+
+[[ports]]
+localPort = 8080
+externalPort = 80
