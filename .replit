@@ -11,3 +11,4 @@ run = ["sh", "-c", "python3 app.py"]
 [[ports]]
 localPort = 8080
 externalPort = 80
+exposeLocalhost = true
